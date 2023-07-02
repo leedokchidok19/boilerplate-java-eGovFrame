@@ -2,8 +2,10 @@ package egovframework.basic.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping(value = "/basic")
 public class BasicController {
 
 	private final String JSP_PATH = "basic/";
@@ -13,8 +15,8 @@ public class BasicController {
 	 * @return "index"
 	 * @exception Exception
 	 */
-	@GetMapping(value = "/index.do")
-	public String indexView() throws Exception {
-		return JSP_PATH+"index";
+	@GetMapping(value = "/view.do")
+	public String basicView() throws Exception {
+		return JSP_PATH+"view";
 	}
 }

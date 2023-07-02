@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>INDEX Page</title>
+<title>Basic Page</title>
 </head>
 <body>
 
