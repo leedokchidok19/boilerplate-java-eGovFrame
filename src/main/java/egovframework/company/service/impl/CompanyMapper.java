@@ -12,6 +12,13 @@ public interface CompanyMapper {
 
 	List<?> selectCompanyList(SampleDefaultVO searchVO) throws Exception;
 
-	int selectSampleListTotCnt(SampleDefaultVO searchVO);
+	int selectSampleListTotCnt(SampleDefaultVO searchVO) throws Exception;
 
+	int updateCompany(SampleDefaultVO vo) throws Exception;
+
+	int updateContact(SampleDefaultVO vo) throws Exception;
+
+	int deleteCompany(SampleDefaultVO vo) throws Exception;
+
+	int deleteContact(SampleDefaultVO vo) throws Exception;
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.company.service.impl.CompanyMapper">
+<!-- 
+	<resultMap id="sample" type="egovframework.basic.service.DefaultSearchVO">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="description" column="description"/>
+		<result property="useYn" column="use_yn"/>
+		<result property="regUser" column="reg_user"/>
+	</resultMap>
+ -->
+	<select id="selectCompanyList" parameterType="DefaultSearchVO" resultType="egovMap">
+
+			SELECT
+				ID, NAME, DESCRIPTION, USE_YN, REG_USER
+			FROM SAMPLE
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="searchCondition == 0">
+						AND	ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchCondition == 1">
+						AND	NAME LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			ORDER BY ID ASC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+
+	<select id="selectSampleListTotCnt" parameterType="DefaultSearchVO" resultType="int">
+			SELECT COUNT(*) totcnt
+			FROM SAMPLE
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="searchCondition == 0">
+						AND ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchCondition == 1">
+						AND	NAME LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+
+	<!-- COMPANY 테이블 업데이트 -->
+	<update id="updateCompany">
+		UPDATE COMPANY
+		<set>
+			<if test="companyName != null">company_name = #{companyName},</if>
+			<if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+			<if test="representative != null">representative = #{representative},</if>
+			<if test="businessType != null">business_type = #{businessType},</if>
+			<if test="numberOfEmployees != null">number_of_employees = #{numberOfEmployees},</if>
+			<if test="capital != null">capital = #{capital},</if>
+			<if test="faxNumber != null">fax_number = #{faxNumber},</if>
+			<if test="website != null">website = #{website},</if>
+			<if test="history != null">history = #{history},</if>
+		</set>
+		WHERE company_id = #{companyId}
+	</update>
+
+	<!-- CONTACT 테이블 업데이트 -->
+	<update id="updateContact">
+		UPDATE CONTACT
+		<set>
+			<if test="contactName != null">contact_name = #{contactName},</if>
+			<if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+			<if test="age != null">age = #{age},</if>
+		</set>
+		WHERE company_id = #{companyId}
+	</update>
+
+	<!-- COMPANY 테이블 삭제 -->
+	<delete id="deleteCompany" parameterType="int">
+		DELETE FROM COMPANY
+		WHERE company_id = #{companyId}
+	</delete>
+
+	<!-- CONTACT 테이블 삭제 -->
+	<delete id="deleteContact" parameterType="int">
+		DELETE FROM CONTACT
+		WHERE company_id = #{companyId}
+	</delete>
+
+</mapper>
