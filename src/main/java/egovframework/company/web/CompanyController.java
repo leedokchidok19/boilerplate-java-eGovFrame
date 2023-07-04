@@ -51,10 +51,10 @@ public class CompanyController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<?> sampleList = companyService.selectCompanyList(searchVO);
-		model.addAttribute("resultList", sampleList);
+		List<?> companyList = companyService.selectCompanyList(searchVO);
+		model.addAttribute("companyList", companyList);
 
-		int totCnt = companyService.selectSampleListTotCnt(searchVO);
+		int totCnt = companyService.selectCompanyListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 		return JSP_PATH+"view";

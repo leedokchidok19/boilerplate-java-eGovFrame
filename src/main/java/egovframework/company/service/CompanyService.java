@@ -8,6 +8,6 @@ public interface CompanyService {
 
 	List<?> selectCompanyList(DefaultSearchVO searchVO) throws Exception;
 
-	int selectSampleListTotCnt(DefaultSearchVO searchVO) throws Exception;
+	int selectCompanyListTotCnt(DefaultSearchVO searchVO) throws Exception;
 
 }

@@ -13,34 +13,47 @@
 	<select id="selectCompanyList" parameterType="DefaultSearchVO" resultType="egovMap">
 
 			SELECT
-				ID, NAME, DESCRIPTION, USE_YN, REG_USER
-			FROM SAMPLE
-			WHERE 1=1
+					A.COMPANY_ID,
+					A.COMPANY_NAME,
+					A.PHONE_NUMBER,
+					A.REPRESENTATIVE_NAME,
+					A.COMPANY_TYPE,
+					A.EMPLOYEE_COUNT,
+					A.REVENUE,
+					A.FAX_NUMBER,
+					A.COMPANY_WEBSITE,
+					A.HISTORY,
+					B.CONTACT_NAME,
+					B.CONTACT_NUMBER
+			FROM	COMPANY A,
+					CONTACT B
+			WHERE	A.COMPANY_ID = B.COMPANY_ID
 			<if test="searchKeyword != null and searchKeyword != ''">
 				<choose>
 					<when test="searchCondition == 0">
-						AND	ID LIKE '%' || #{searchKeyword} || '%'
+						AND	A.COMPANY_NAME LIKE '%' || #{searchKeyword} || '%'
 					</when>
 					<when test="searchCondition == 1">
-						AND	NAME LIKE '%' || #{searchKeyword} || '%'
+						AND	B.CONTACT_NAME LIKE '%' || #{searchKeyword} || '%'
 					</when>
 				</choose>
 			</if>
-			ORDER BY ID ASC
+			ORDER BY A.COMPANY_ID ASC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
-	<select id="selectSampleListTotCnt" parameterType="DefaultSearchVO" resultType="int">
-			SELECT COUNT(*) totcnt
-			FROM SAMPLE
-			WHERE 1=1
+	<select id="selectCompanyListTotCnt" parameterType="DefaultSearchVO" resultType="int">
+			SELECT
+					COUNT(*) AS CNT
+			FROM	COMPANY A, CONTACT B
+			WHERE	A.COMPANY_ID = B.COMPANY_ID
 			<if test="searchKeyword != null and searchKeyword != ''">
 				<choose>
 					<when test="searchCondition == 0">
-						AND ID LIKE '%' || #{searchKeyword} || '%'
+						AND	ID COMPANY_NAME '%' || #{searchKeyword} || '%'
 					</when>
 					<when test="searchCondition == 1">
-						AND	NAME LIKE '%' || #{searchKeyword} || '%'
+						AND	CONTACT_NAME LIKE '%' || #{searchKeyword} || '%'
 					</when>
 				</choose>
 			</if>

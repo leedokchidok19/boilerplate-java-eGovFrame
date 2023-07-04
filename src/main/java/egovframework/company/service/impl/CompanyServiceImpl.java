@@ -31,14 +31,14 @@ public class CompanyServiceImpl extends EgovAbstractServiceImpl implements Compa
 
 	@Override
 	public List<?> selectCompanyList(DefaultSearchVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<?> companyList = companyMapper.selectCompanyList(searchVO);
+		return companyList;
 	}
 
 	@Override
-	public int selectSampleListTotCnt(DefaultSearchVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectCompanyListTotCnt(DefaultSearchVO searchVO) throws Exception {
+		int companyListCnt = companyMapper.selectCompanyListTotCnt(searchVO);
+		return companyListCnt;
 	}
 
 }

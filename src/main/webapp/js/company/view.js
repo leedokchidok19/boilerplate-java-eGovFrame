@@ -1,18 +1,42 @@
-//
-function loadData(){
-	// 회사 정보 데이터(JSON 형식)
-	fetch('/json/company/data.json')
-	.then((res) => {
-		return res.json()
-	})
-	.then((companies) => {
-	//모든 회사 정보 표시
-		displayCompanies(companies);
-	})
+function convertToJSON(dataString) {
+	const jsonData = [];
+
+	// 데이터 문자열을 JSON 배열로 변환합니다.
+	const companies = dataString.split('},');
+	for (let company of companies) {
+		const companyData = {};
+
+		// 특수 문자를 제거합니다.
+		company = company.replace(/[\[\]{}]/g, '');
+
+		// 쉼표를 기준으로 데이터 문자열을 분리하여 키-값 쌍을 추출합니다.
+		const pairs = company.split(',');
+
+		// 각 쌍을 등호로 분리하여 키와 값을 추출합니다.
+		for (let pair of pairs) {
+			const [key, value] = pair.split('=');
+
+			// 키와 값 양쪽에 있는 공백을 제거합니다.
+			const trimmedKey = key.trim();
+			const trimmedValue = value.trim();
+
+			// JSON 데이터 객체에 키-값 쌍을 저장합니다.
+			companyData[trimmedKey] = trimmedValue;
+		}
+
+		// JSON 데이터를 배열에 추가합니다.
+		jsonData.push(companyData);
+	}
+
+	return jsonData;
 }
 
-// 회사 정보를 테이블에 표시하는 함수
-function displayCompanies(data) {
+function displayCompanies(dataString) {
+	let data;
+
+	if (typeof dataString === 'string') {
+		data = convertToJSON(dataString);
+	}
 
 	const tableBody = document.querySelector('#companyTable tbody');
 	tableBody.innerHTML = '';
@@ -21,52 +45,13 @@ function displayCompanies(data) {
 		const company = data[i];
 		const row = document.createElement('tr');
 
-		Object.keys(company).forEach(key => {
+		Object.values(company).forEach(value => {
 			const cell = document.createElement('td');
-			cell.textContent = company[key];
+			cell.textContent = value;
 			row.appendChild(cell);
 		});
 
 		tableBody.appendChild(row);
 	}
 }
-
-// 회사 정보 검색 함수
-function searchCompanies() {
-
-	const searchInput = document.querySelector('#searchInput');
-
-	if(searchInput === null || searchInput === undefined) return false;
-
-	const searchText = searchInput.value.trim().toLowerCase();
-	const filteredCompanies = companies.filter(company =>
-		company["회사명"].toLowerCase().includes(searchText)
-	);
-
-	displayCompanies(filteredCompanies);
-}
-
-// 키로 부터 데이터 읽기
-const getCompanies = localStorage.getItem('companies');
-
-if(getCompanies !== null && getCompanies.length > 2){
-	const itemCompanies = getCompanies ? JSON.parse(getCompanies) : [];
-	displayCompanies(itemCompanies);
-}else{
-	//초기 페이지 로드 시 실행
-	loadData();
-}
-
-function companyListClear(){
-	localStorage.clear();
-	location.reload();
-}
-
-
-const searchBtn = document.querySelector('#searchBtn');
-searchBtn.addEventListener('click', searchCompanies);
-
-const companyClear = document.querySelector('#companyClear');
-companyClear.addEventListener('click', companyListClear);
-
 

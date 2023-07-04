@@ -1,4 +1,5 @@
-<%@ page	language="java"	contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page	language="java"	contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"	%>
+<%@ taglib	prefix="c"		uri="http://java.sun.com/jsp/jstl/core"							%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +45,11 @@
 		<a href="input.html" class="link">회사 정보 입력</a>
 	</div>
 
-	<script src="/js/view.js"></script>
-	<script src="/js/download.js"></script>
+	<script src="/js/company/view.js"></script>
+<!-- 		<script src="/js/company/download.js"></script> -->
+	<script type="text/javascript">
+		var companyList = '${companyList}';
+		displayCompanies(companyList);
+	</script>
 </body>
 </html>
